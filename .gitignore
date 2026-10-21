@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+data/*.csv
+dbt_project/target/
+dbt_project/logs/
+dbt_project/dbt_packages/
+logs/
+.DS_Store
+.DS_Store
+.agents/

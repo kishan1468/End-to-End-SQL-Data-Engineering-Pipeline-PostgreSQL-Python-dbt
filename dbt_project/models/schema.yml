@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  # ---------------- staging ----------------
+  - name: stg_customers
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+      - name: email
+        tests: [unique, not_null]
+  - name: stg_products
+    columns:
+      - name: product_id
+        tests: [unique, not_null]
+  - name: stg_orders
+    columns:
+      - name: order_id
+        tests: [unique, not_null]
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: [pending, shipped, completed, cancelled, refunded]
+  - name: stg_order_items
+    columns:
+      - name: order_item_id
+        tests: [unique, not_null]
+      - name: order_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_orders')
+                field: order_id
+      - name: product_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
+  - name: stg_payments
+    columns:
+      - name: payment_id
+        tests: [unique, not_null]
+      - name: order_id
+        description: At most one payment per order.
+        tests:
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_orders')
+                field: order_id
+
+  # ---------------- intermediate ----------------
+  - name: int_order_totals
+    columns:
+      - name: order_id
+        tests: [unique, not_null]
+
+  # ---------------- marts ----------------
+  - name: fct_orders
+    description: One row per order with totals, customer country and payment details.
+    columns:
+      - name: order_id
+        tests: [unique, not_null]
+      - name: order_total
+        tests: [not_null]
+  - name: dim_customers
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+      - name: revenue_quartile
+        tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4]
+                quote: false
+  - name: dim_products
+    columns:
+      - name: product_id
+        tests: [unique, not_null]
+  - name: fct_daily_revenue
+    columns:
+      - name: order_date
+        tests: [unique, not_null]
+  - name: customer_rfm
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+      - name: segment
+        tests:
+          - accepted_values:
+              arguments:
+                values: [Champion, Loyal, Recent, At risk, Hibernating]

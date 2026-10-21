@@ -1,0 +1,6 @@
+table_name,read,loaded,rejected
+customers,2005,1980,25
+products,120,120,0
+orders,8025,7909,116
+order_items,24104,23811,293
+payments,6959,6874,85

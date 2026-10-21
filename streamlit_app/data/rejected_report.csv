@@ -1,0 +1,10 @@
+table_name,reason,rows
+customers,duplicate customer_id,5
+customers,invalid email,20
+order_items,orphan order_id (no matching order),273
+order_items,quantity < 1,20
+orders,order_date is in the future,5
+orders,orphan customer_id (no matching customer),101
+orders,status not in allowed values,10
+payments,amount is null/empty,8
+payments,orphan order_id (no matching order),77
