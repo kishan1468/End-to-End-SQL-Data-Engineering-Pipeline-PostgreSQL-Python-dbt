@@ -1,5 +1,7 @@
 # End-to-End SQL Data Engineering Pipeline (PostgreSQL · Python · dbt)
 
+**🔴 Live dashboard:** [kishan-ecommerce-pipeline.streamlit.app](https://kishan-ecommerce-pipeline.streamlit.app/)
+
 A small but complete ELT pipeline for a synthetic e-commerce business: raw CSV files are **validated in Python**, loaded into **PostgreSQL**, transformed with **dbt Core** into a tested star-schema-style warehouse, and analysed with **advanced SQL** (CTEs, window functions, cohort and RFM analysis). Everything runs locally with Docker.
 
 ## Architecture
